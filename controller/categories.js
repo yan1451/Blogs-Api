@@ -8,6 +8,12 @@ const createCategories = async (req, res) => {
       return res.status(201).json(createdCategorie);
 };
 
+const getAll = async (req, res) => {
+  const findAllCategories = await Categories.findAll();
+  return res.status(200).json(findAllCategories);
+};
+
 module.exports = {
   createCategories,
+  getAll,
 };
