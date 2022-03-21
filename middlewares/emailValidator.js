@@ -4,7 +4,8 @@ module.exports = (req, res, next) => {
   const validEmail = emailRegex.test(email);
   console.log(validEmail);
 
-  if (!email) return res.status(400).send({ message: '"email" is required' });
+  if (email === '') res.status(400).send({ message: '"email" is not allowed to be empty' }); 
+  if (!email) return res.status(400).send({ message: '"email" is required' });  
   if (!validEmail) return res.status(400).send({ message: '"email" must be a valid email' });
 
   next();
