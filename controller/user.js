@@ -10,7 +10,7 @@ const create = async (req, res) => {
 
       const created = await Users.create({ displayName, email, password, image });
 
-      const token = jwtGenerator({ id: created.id, displayName });
+      const token = jwtGenerator({ id: created.id, password });
 
       return res.status(201).json({ token });
 };
@@ -23,12 +23,18 @@ const login = async (req, res) => {
 
     if (!validLogin) return res.status(400).send({ message: 'Invalid fields' });
 
-    const token = jwtGenerator({ email, password });
+    const token = jwtGenerator({ id: validLogin.id, password });
 
     return res.status(200).json({ token });
+};
+
+const getAll = async (req, res) => {
+    const getUsers = await Users.findAll();
+      return res.status(200).json(getUsers);
 };
 
 module.exports = { 
   create,
   login,
+  getAll,
 };
