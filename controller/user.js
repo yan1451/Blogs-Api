@@ -33,8 +33,17 @@ const getAll = async (req, res) => {
       return res.status(200).json(getUsers);
 };
 
+const getById = async (req, res) => {
+  const user = await Users.findByPk(req.params.id);
+
+  if (!user) return res.status(404).send({ message: 'User does not exist' });
+
+  return res.status(200).json(user);
+};
+
 module.exports = { 
   create,
   login,
   getAll,
+  getById,
 };
