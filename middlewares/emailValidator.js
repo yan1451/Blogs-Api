@@ -1,7 +1,7 @@
 module.exports = (req, res, next) => {
   const { email } = req.body;
-  const emailRegex = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/;
-  const validEmail = emailRegex.test(email);
+  const emailR = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/;
+  const validEmail = emailR.test(email);
   console.log(validEmail);
 
   if (email === '') res.status(400).send({ message: '"email" is not allowed to be empty' }); 
