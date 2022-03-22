@@ -45,8 +45,31 @@ const findById = async (req, res) => {
   return res.status(200).json(findId);
 };
 
+const EditPost = async (req, res) => {
+  const { id } = req.params;
+  const { title, content } = req.body;  
+  const findPost = await BlogPosts.findByPk(id, {
+    include: [ 
+      { model: Categories, as: 'categories', exclude: PostsCategories,
+    }],
+
+  });
+
+  if (findPost.userId !== req.dataToken.id) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+  await findPost.set({
+    title,
+    content,
+  });
+await findPost.save();
+
+  res.status(200).json(findPost);
+};
+
 module.exports = {
   createPosts,
   getAllPosts,
   findById,
+  EditPost,
 };

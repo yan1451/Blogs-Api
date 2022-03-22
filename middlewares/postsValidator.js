@@ -16,8 +16,15 @@ const categoryIdsValidator = (req, res, next) => {
   next();
 };
 
+const notAutorized = (req, res, next) => {
+  const { categoryIds } = req.body;
+  if (categoryIds) return res.status(400).send({ message: 'Categories cannot be edited' });
+  next();
+};
+
 module.exports = { 
   titleValidator,
   contentValidator,
   categoryIdsValidator,
+  notAutorized,
 };

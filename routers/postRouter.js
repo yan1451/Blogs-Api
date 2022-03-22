@@ -1,8 +1,9 @@
 const express = require('express');
-const { createPosts, getAllPosts, findById } = require('../controller/post');
+const { createPosts, getAllPosts, findById, EditPost } = require('../controller/post');
 const { titleValidator, 
   contentValidator, 
-  categoryIdsValidator } = require('../middlewares/postsValidator');  
+  categoryIdsValidator, 
+  notAutorized } = require('../middlewares/postsValidator');  
 const auth = require('../middlewares/authenticator.middlewares');
 
 const router = express.Router();
@@ -12,5 +13,7 @@ router.post('/', auth, titleValidator, contentValidator, categoryIdsValidator, c
 router.get('/', auth, getAllPosts);
 
 router.get('/:id', auth, findById);
+
+router.put('/:id', auth, titleValidator, contentValidator, notAutorized, EditPost);
 
 module.exports = router;
