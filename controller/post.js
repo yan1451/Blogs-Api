@@ -29,7 +29,24 @@ const getAllPosts = async (req, res) => {
   return res.status(200).json(findAll);
 };
 
+const findById = async (req, res) => {
+  const { id } = req.params;
+  const alreadyExist = await BlogPosts.findByPk(id);
+
+  if (!alreadyExist || alreadyExist === null) { 
+    return res.status(404).send({ message: 'Post does not exist' });
+  }
+  const findId = await BlogPosts.findByPk(id, {
+    include: [
+      { model: Users, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories' },
+    ],    
+  });
+  return res.status(200).json(findId);
+};
+
 module.exports = {
   createPosts,
   getAllPosts,
+  findById,
 };
