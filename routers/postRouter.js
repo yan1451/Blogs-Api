@@ -1,5 +1,5 @@
 const express = require('express');
-const { createPosts, getAllPosts, findById, EditPost } = require('../controller/post');
+const { createPosts, getAllPosts, findById, EditPost, DeletePost } = require('../controller/post');
 const { titleValidator, 
   contentValidator, 
   categoryIdsValidator, 
@@ -15,5 +15,7 @@ router.get('/', auth, getAllPosts);
 router.get('/:id', auth, findById);
 
 router.put('/:id', auth, titleValidator, contentValidator, notAutorized, EditPost);
+
+router.delete('/:id', auth, DeletePost);
 
 module.exports = router;

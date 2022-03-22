@@ -67,9 +67,30 @@ await findPost.save();
   res.status(200).json(findPost);
 };
 
+const DeletePost = async (req, res) => {
+  const { id } = req.params;
+
+  const alreadyExist = await BlogPosts.findByPk(id);
+  if (!alreadyExist || alreadyExist === null) { 
+    return res.status(404).send({ message: 'Post does not exist' });
+  }
+
+  const findPost = await BlogPosts.findByPk(id);
+
+  if (findPost.userId !== req.dataToken.id) {
+    return res.status(401).json({ message: 'Unauthorized user' });
+  }
+
+  await findPost.destroy({
+    force: true });
+
+    return res.status(204).end();
+};
+
 module.exports = {
   createPosts,
   getAllPosts,
   findById,
   EditPost,
+  DeletePost,
 };
